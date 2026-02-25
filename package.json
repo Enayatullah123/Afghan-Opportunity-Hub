@@ -1,0 +1,52 @@
+{
+	"name": "myapp",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"start": "react-scripts start",
+		"build": "react-scripts build",
+		"test": "react-scripts test",
+		"eject": "react-scripts eject"
+	},
+	"devDependencies": {
+		"autoprefixer": "^10.4.24",
+		"postcss": "^8.5.6",
+		"react-scripts": "^5.0.1",
+		"tailwindcss": "^3.4.19"
+	},
+	"dependencies": {
+		"@radix-ui/react-slot": "^1.2.4",
+		"@radix-ui/react-tabs": "^1.1.13",
+		"@radix-ui/react-toast": "^1.2.15",
+		"class-variance-authority": "^0.7.1",
+		"clsx": "^2.1.1",
+		"framer-motion": "^12.34.3",
+		"lucide-react": "^0.575.0",
+		"react": "^19.2.4",
+		"react-dom": "^19.2.4",
+		"react-helmet": "^6.1.0",
+		"react-refresh": "^0.18.0",
+		"react-router-dom": "^7.13.0",
+		"tailwind-merge": "^3.5.0",
+		"tailwindcss-animate": "^1.0.7",
+		"web-vitals": "^2.1.4"
+	},
+	"eslintConfig": {
+		"extends": [
+			"react-app",
+			"react-app/jest"
+		]
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	}
+}
