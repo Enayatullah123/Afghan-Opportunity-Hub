@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Facebook, Mail, ArrowRight, MapPin, ExternalLink, Youtube } from 'lucide-react';
+import { Facebook, Mail, ArrowRight, MapPin, Youtube } from 'lucide-react';
 import { useLocale } from '../contexts/LocaleContext.jsx';
 import { getContactSettings } from '../admin/utils.js';
 
@@ -39,6 +39,23 @@ const Footer = () => {
     { title: 'Web Application Development' },
   ]).slice(0,3).map((s) => ({ name: s.title || s.name, path: '/services' }));
 
+  const socialLinks = [
+    {
+      key: 'facebook',
+      href: contactInfo.facebookUrl,
+      label: t('facebookLabel') || 'Facebook',
+      icon: Facebook,
+      iconClass: 'text-blue-200',
+    },
+    {
+      key: 'youtube',
+      href: contactInfo.youtubeUrl,
+      label: 'YouTube',
+      icon: Youtube,
+      iconClass: 'text-red-400',
+    },
+  ].filter((item) => !!item.href);
+
   return (
     <footer className="bg-[#1E73BE] dark:bg-gray-800 text-white mt-auto transition-colors duration-200">
       <div className="container mx-auto px-4 py-12">
@@ -46,7 +63,7 @@ const Footer = () => {
           {/* Branding */}
           <div>
             <div className="flex items-center space-x-2 mb-4">
-              <img src="/Afghan.png" alt="Afghan Opportunity Hub Logo" className="h-12 w-12 rounded-full border-2 border-blue-200 bg-white object-cover" />
+              <img src="/Logo.png" alt="Afghan Opportunity Hub Logo" className="h-12 w-12 rounded-full border-2 border-blue-200 bg-white object-cover" />
               <span className="font-bold text-lg">{t('siteTitle')}</span>
             </div>
             <p className="text-blue-100 text-sm leading-relaxed mb-4">
@@ -116,41 +133,26 @@ const Footer = () => {
                 </div>
               </div>
 
-              {/* Facebook */}
-              {contactInfo.facebookUrl && (
-                <div className="flex items-start space-x-2">
-                  <Facebook className="w-5 h-5 text-blue-200 flex-shrink-0 mt-0.5" />
-                  <div className="min-w-0 flex-1">
-                    <p className="text-xs text-blue-200 mb-1">{t('facebookLabel')}</p>
-                    <a href={contactInfo.facebookUrl} target="_blank" rel="noopener noreferrer" className="text-white hover:text-blue-100 text-sm break-all block">
-                      {contactInfo.facebookUrl}
-                    </a>
-                  </div>
-                </div>
-              )}
-
-              {/* YouTube */}
-              {contactInfo.youtubeUrl && (
-                <div className="flex items-start space-x-2">
-                  <Youtube className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
-                  <div className="min-w-0 flex-1">
-                    <p className="text-xs text-blue-200 mb-1">YouTube</p>
-                    <a href={contactInfo.youtubeUrl} target="_blank" rel="noopener noreferrer" className="text-white hover:text-blue-100 text-sm break-all block">
-                      {contactInfo.youtubeUrl}
-                    </a>
-                  </div>
-                </div>
-              )}
-
-              {/* LinkedIn */}
-              {contactInfo.linkedinUrl && (
-                <div className="flex items-start space-x-2">
-                  <ExternalLink className="w-5 h-5 text-blue-200 flex-shrink-0 mt-0.5" />
-                  <div className="min-w-0 flex-1">
-                    <p className="text-xs text-blue-200 mb-1">LinkedIn</p>
-                    <a href={contactInfo.linkedinUrl} target="_blank" rel="noopener noreferrer" className="text-white hover:text-blue-100 text-sm break-all block">
-                      {contactInfo.linkedinUrl}
-                    </a>
+              {socialLinks.length > 0 && (
+                <div>
+                  <p className="text-xs text-blue-200 mb-2">Social</p>
+                  <div className="flex items-center gap-3">
+                    {socialLinks.map((item) => {
+                      const Icon = item.icon;
+                      return (
+                        <a
+                          key={item.key}
+                          href={item.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={item.label}
+                          title={item.label}
+                          className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/10 hover:bg-white/20 transition-colors"
+                        >
+                          <Icon className={`w-5 h-5 ${item.iconClass}`} />
+                        </a>
+                      );
+                    })}
                   </div>
                 </div>
               )}

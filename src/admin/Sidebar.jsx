@@ -22,14 +22,17 @@ const Sidebar = () => {
         <NavLink to="/admin/add-job" className={({isActive}) => linkClass(isActive)}>
           💼 Add Job
         </NavLink>
+        <NavLink to="/admin/add-success-story" className={({isActive}) => linkClass(isActive)}>
+          🏆 Add Success Story
+        </NavLink>
         <NavLink to="/admin/resources" className={({isActive}) => linkClass(isActive)}>
           📁 Resources (PDFs)
         </NavLink>
+        <NavLink to="/admin/services" className={({isActive}) => linkClass(isActive)}>
+          🧩 Services Management
+        </NavLink>
         <NavLink to="/admin/portfolio" className={({isActive}) => linkClass(isActive)}>
           🖼️ Portfolio Management
-        </NavLink>
-        <NavLink to="/admin/pricing" className={({isActive}) => linkClass(isActive)}>
-          💳 Pricing Management
         </NavLink>
         <NavLink to="/admin/reviews" className={({isActive}) => linkClass(isActive)}>
           ⭐ Client Reviews

@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useLocale } from '../contexts/LocaleContext.jsx';
 import { Helmet } from 'react-helmet';
-import { Link } from 'react-router-dom';
 import { Globe, Smartphone, Code, Palette, Video, Sparkles, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Button } from '../components/ui/button.jsx';
+import { fetchPostsByType } from '../admin/utils.js';
+import websitePreview from '../assets/services/website.svg';
+import mobilePreview from '../assets/services/mobile.svg';
+import webappPreview from '../assets/services/webapp.svg';
+import videoPreview from '../assets/services/video.svg';
+import uiuxPreview from '../assets/services/uiux.svg';
+import logoPreview from '../assets/services/logo.svg';
 
 import PortfolioGallery from '../components/PortfolioGallery.jsx';
-import PricingTiers from '../components/PricingTiers.jsx';
 import WhyChooseUs from '../components/WhyChooseUs.jsx';
 import HowItWorks from '../components/HowItWorks.jsx';
 import ServiceFAQ from '../components/ServiceFAQ.jsx';
@@ -16,8 +21,41 @@ import ServiceInquiryForm from '../components/ServiceInquiryForm.jsx';
 
 const ServicesPage = () => {
   const { t } = useLocale();
-  const services = t('servicesList') || [];
+  const defaultServices = t('servicesList') || [];
+  const [adminServices, setAdminServices] = useState([]);
   const serviceIcons = [Globe, Smartphone, Code, Video, Palette, Sparkles];
+  const servicePreviewImages = [
+    websitePreview,
+    mobilePreview,
+    webappPreview,
+    videoPreview,
+    uiuxPreview,
+    logoPreview,
+  ];
+
+  useEffect(() => {
+    const loadServices = () => {
+      const items = (fetchPostsByType('service') || []).map((item) => ({
+        ...item,
+        title: item.title?.en || item.title || '',
+        description: item.description?.en || item.description || '',
+        details: item.details || '',
+        image: item.image || '',
+      }));
+      setAdminServices(items);
+    };
+
+    loadServices();
+    window.addEventListener('dataUpdated', loadServices);
+    return () => window.removeEventListener('dataUpdated', loadServices);
+  }, []);
+
+  const services = useMemo(() => {
+    if (adminServices.length > 0) {
+      return adminServices;
+    }
+    return defaultServices;
+  }, [adminServices, defaultServices]);
 
   return (
     <div className="font-poppins min-h-screen bg-gray-50">
@@ -78,6 +116,12 @@ const ServicesPage = () => {
                 whileHover={{ scale: 1.02, y: -5 }}
                 className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 group flex flex-col h-full"
               >
+                <img
+                  src={service.image || servicePreviewImages[index % servicePreviewImages.length]}
+                  alt={`${service.title} preview`}
+                  className="w-full h-28 object-cover rounded-xl mb-6 border border-gray-100"
+                  loading="lazy"
+                />
                 <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 group-hover:bg-[#1E73BE] transition-colors duration-300">
                   {(() => {
                     const Icon = service.icon || serviceIcons[index] || Globe;
@@ -107,8 +151,6 @@ const ServicesPage = () => {
       </div>
 
       <HowItWorks />
-      
-      <PricingTiers />
       
       <ServiceTestimonials />
       

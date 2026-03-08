@@ -13,6 +13,8 @@ const AddScholarship = () => {
   const [requirements, setRequirements] = useState('');
   const [deadline, setDeadline] = useState('');
   const [stipend, setStipend] = useState('');
+  const [status, setStatus] = useState('verified');
+  const [successTips, setSuccessTips] = useState('');
   const [applyLink, setApplyLink] = useState('');
   const [videoLink, setVideoLink] = useState('');
   const [pdf, setPdf] = useState(null);
@@ -40,6 +42,8 @@ const AddScholarship = () => {
       requirements,
       deadline,
       stipend,
+      status,
+      successTips,
       applyLink,
       videoLink,
       pdf,
@@ -56,6 +60,8 @@ const AddScholarship = () => {
     setRequirements('');
     setDeadline('');
     setStipend('');
+    setStatus('verified');
+    setSuccessTips('');
     setApplyLink('');
     setVideoLink('');
     setPdf(null);
@@ -95,6 +101,15 @@ const AddScholarship = () => {
         {/* Requirements */}
         <div>
           <textarea placeholder="Requirements" value={requirements} onChange={e=>setRequirements(e.target.value)} className="p-2 border rounded w-full" rows="3" />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+          <select value={status} onChange={e=>setStatus(e.target.value)} className="p-2 border rounded">
+            <option value="verified">Verified</option>
+            <option value="pending">Pending Review</option>
+            <option value="unverified">Unverified</option>
+          </select>
+          <textarea placeholder="Success tips for applicants" value={successTips} onChange={e=>setSuccessTips(e.target.value)} className="p-2 border rounded w-full" rows="2" />
         </div>
 
         {/* Deadline, Apply Link, Video Link */}

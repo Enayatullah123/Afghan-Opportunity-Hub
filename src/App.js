@@ -22,11 +22,11 @@ import AddScholarship from './admin/AddScholarship.jsx';
 import AddJob from './admin/AddJob.jsx';
 import ManagePosts from './admin/ManagePosts.jsx';
 import ResourcesAdmin from './admin/ResourcesAdmin.jsx';
+import ServicesAdmin from './admin/ServicesAdmin.jsx';
 import MessagesAdmin from './admin/MessagesAdmin.jsx';
 import ContactSettings from './admin/ContactSettings.jsx';
 import ContactMessages from './admin/ContactMessages.jsx';
 import PortfolioAdmin from './admin/PortfolioAdmin.jsx';
-import PricingAdmin from './admin/PricingAdmin.jsx';
 import ReviewsAdmin from './admin/ReviewsAdmin.jsx';
 import { logoutUser } from './admin/utils.js';
 import ResetPassword from './admin/ResetPassword.jsx';
@@ -82,17 +82,17 @@ function App() {
                 </AdminLayout>
               </ProtectedRoute>
             } />
+            <Route path="/admin/services" element={
+              <ProtectedRoute>
+                <AdminLayout onLogout={handleLogout}>
+                  <ServicesAdmin />
+                </AdminLayout>
+              </ProtectedRoute>
+            } />
             <Route path="/admin/portfolio" element={
               <ProtectedRoute>
                 <AdminLayout onLogout={handleLogout}>
                   <PortfolioAdmin />
-                </AdminLayout>
-              </ProtectedRoute>
-            } />
-            <Route path="/admin/pricing" element={
-              <ProtectedRoute>
-                <AdminLayout onLogout={handleLogout}>
-                  <PricingAdmin />
                 </AdminLayout>
               </ProtectedRoute>
             } />

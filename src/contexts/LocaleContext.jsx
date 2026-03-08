@@ -12,6 +12,7 @@ const translations = {
     jobs: 'Jobs',
     howToApply: 'How to Apply',
     resources: 'Resources',
+    learnHub: 'Learn Hub',
     about: 'About',
     contact: 'Contact',
     heroTitle: 'Simple Guidance for Scholarships and Job Applications',
@@ -100,21 +101,6 @@ const translations = {
         videoId: 'dQw4w9WgXcQ',
       },
     ],
-    jobsData: {
-      ngos: [
-        { title: 'Project Manager', organization: 'UNICEF Afghanistan', location: 'Kabul', type: 'Full-time', deadline: 'March 30, 2026', requirements: "د ماسټرۍ سند، د پروژې مدیریت کې ۵+ کاله تجربه، په انګلیسي او دري/پښتو روان.", description: 'د زده کړې او د ماشومانو د خوندیتوب پروژې رهبري کړئ.', salary: '$3,000 - $4,500 / month', videoId: 'dQw4w9WgXcQ' },
-        { title: 'Education Coordinator', organization: 'Save the Children', location: 'Herat', type: 'Full-time', deadline: 'April 5, 2026', requirements: "د تعلیم په برخه کې لیسانس، د NGO سکتور کې ۳+ کاله تجربه.", description: 'د زیان‌منو ماشومانو لپاره د تعلیم پروګرامونه همغږي کړئ.', salary: '$1,500 - $2,200 / month', videoId: 'dQw4w9WgXcQ' },
-      ],
-      government: [
-        { title: 'Administrative Officer', organization: 'Ministry of Education', location: 'Kabul', type: 'Full-time', deadline: 'March 28, 2026', requirements: 'لیسانس، اداري تجربه، قوي تنظیمي مهارتونه.', description: 'د وزارت دننه اداري عملیاتو او پالیسۍ پلي کېدو کې مرسته وکړئ.', salary: 'AFN 45,000 - 60,000 / month', videoId: 'dQw4w9WgXcQ' },
-      ],
-      online: [
-        { title: 'Content Writer', organization: 'Global Content Agency', location: 'Remote', type: 'Freelance', deadline: 'Ongoing', requirements: 'عالي انګلیسي لیکلو مهارتونه، د نمونې کار شتون، SEO پوهه.', description: 'د نړیوالو پیرودونکو لپاره مقالات، بلاګونه او ویب مینځپانګه ولیکئ.', salary: '$15 - $30 / hour', videoId: 'dQw4w9WgXcQ' },
-      ],
-      international: [
-        { title: 'Research Assistant', organization: 'World Bank', location: 'Remote/Kabul', type: 'Contract', deadline: 'March 25, 2026', requirements: 'ماسټري سند، د څیړنې تجربه، احصایوي تحلیل.', description: 'د پراختیایي اقتصاد او تګلارې په اړه څیړنه کې مرسته وکړئ.', salary: '$2,500 - $3,500 / month', videoId: 'dQw4w9WgXcQ' },
-      ],
-    },
     // Jobs page
     jobsTitle: 'Jobs & Opportunities',
     jobsSubtitle: 'Find your next career opportunity with top organizations',
@@ -154,6 +140,7 @@ const translations = {
     resourcesDesc: 'Free downloadable templates and helpful resources for your applications',
     downloadableTemplates: 'Downloadable Templates',
     externalResources: 'External Resources',
+    noResourcesAvailable: 'No resources available in this category yet.',
     templates: [
       {
         category: 'CV/Resume Templates',
@@ -168,6 +155,7 @@ const translations = {
         items: [
           { name: 'Scholarship Motivation Letter', format: 'DOCX', description: 'Template for scholarship applications' },
           { name: 'Job Application Letter', format: 'DOCX', description: 'Professional cover letter template' },
+          { name: 'Professional Cover Letter Template', format: 'DOCX', description: 'Formal cover letter template for job and internship applications' },
         ],
       },
       {
@@ -230,7 +218,6 @@ const translations = {
     placeholderEmail: 'your.email@example.com',
     placeholderMessage: 'How can we help you?',
     // misc / UI labels
-    visitResource: 'Visit Resource',
     downloadStartedTitle: 'Download Started',
     downloadStartedDesc: '{name} is being prepared for download.',
     solutionLabel: 'Solution:',
@@ -238,8 +225,6 @@ const translations = {
     // contact extras
     getInTouch: 'Get in Touch',
     emailLabelContact: 'Email',
-    whatsappLabel: 'WhatsApp',
-    facebookLabel: 'Facebook',
     locationLabelContact: 'Location',
     officeHours: 'Office Hours',
     officeHoursWeekdays: 'Saturday - Thursday: 9:00 AM - 6:00 PM',
@@ -309,6 +294,7 @@ const translations = {
     jobs: 'دندې',
     howToApply: 'څنګه غوښتنلیک وکړو',
     resources: 'معلومات',
+    learnHub: 'د زده کړې مرکز',
     about: 'زموږ په اړه',
     contact: 'اړیکه',
     heroTitle: 'د بورسونو او دندو لپاره ساده لارښوونې',
@@ -454,6 +440,7 @@ const translations = {
     resourcesDesc: 'د غوښتنلیکونو لپاره وړیا ټیمپلېټونه او سرچینې',
     downloadableTemplates: 'ډاونلوډ وړ ټیمپلېټونه',
     externalResources: 'بهرني منابع',
+    noResourcesAvailable: 'په دې کټګورۍ کې تر اوسه کومه منبع نشته.',
     templates: [
       {
         category: 'د CV/رزومه ټیمپلېټونه',
@@ -468,6 +455,7 @@ const translations = {
         items: [
           { name: 'د بورس لپاره انگیزشي لیک', format: 'DOCX', description: 'د بورس غوښتنلیک لپاره قالب' },
           { name: 'د دندې غوښتنلیک لیک', format: 'DOCX', description: 'مسلکي پوښ لیک قالب' },
+          { name: 'مسلکي پوښ لیک ټیمپلېټ', format: 'DOCX', description: 'د کار او انټرنشپ غوښتنلیکونو لپاره رسمي پوښ لیک' },
         ],
       },
       {
@@ -527,7 +515,6 @@ const translations = {
     placeholderEmail: 'ستاسو.برېښنالیک@مثال.com',
     placeholderMessage: 'څنګه کولی شو مرسته وکړو؟',
     // misc / UI labels
-    visitResource: 'سرچینې ته مراجعه',
     downloadStartedTitle: 'ډاونلوډ پیل شو',
     downloadStartedDesc: '{name} د ډاونلوډ لپاره چمتو کیږي.',
     solutionLabel: 'حل:',
@@ -556,6 +543,7 @@ const translations = {
     jobs: 'شغل‌ها',
     howToApply: 'نحوهٔ درخواست',
     resources: 'منابع',
+    learnHub: 'مرکز آموزش',
     about: 'درباره',
     contact: 'تماس',
     heroTitle: 'راهنمایی ساده برای بورس‌ها و درخواست‌های شغلی',
@@ -696,6 +684,7 @@ const translations = {
         items: [
           { name: 'نامهٔ انگیزشی برای بورس', format: 'DOCX', description: 'قالب برای درخواست‌های بورس' },
           { name: 'نامهٔ درخواست شغل', format: 'DOCX', description: 'قالب پوشش نامهٔ حرفه‌ای' },
+          { name: 'قالب پوشش نامهٔ حرفه‌ای', format: 'DOCX', description: 'قالب رسمی پوشش نامه برای درخواست شغل و کارآموزی' },
         ],
       },
       {

@@ -36,7 +36,7 @@ const Header = () => {
             {/* Logo */}
             <Link to="/" className="flex items-center space-x-2 hover:opacity-90 transition-opacity">
               <div className="flex items-center space-x-1">
-                <img src="/Afghan.png" alt="Afghan Opportunity Hub Logo" className="h-14 w-14 rounded-full border-2 border-blue-200 bg-white object-cover" />
+                <img src="/Logo.png" alt="Afghan Opportunity Hub Logo" className="h-14 w-14 rounded-full border-2 border-blue-200 bg-white object-cover" />
               </div>
               <div className="flex flex-col">
                 <span className="font-bold text-xl leading-tight inline-block">

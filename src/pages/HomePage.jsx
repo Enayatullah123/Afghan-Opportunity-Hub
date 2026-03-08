@@ -1,17 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
 import { GraduationCap, Briefcase, Users, Award } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Button } from '../components/ui/button.jsx';
 import { useLocale } from '../contexts/LocaleContext.jsx';
+import EligibilityChecker from '../components/EligibilityChecker.jsx';
+import { fetchPostsByType } from '../admin/utils.js';
 
 const HomePage = () => {
   const { t } = useLocale();
+  const [scholarshipCount, setScholarshipCount] = useState(0);
+  const [jobCount, setJobCount] = useState(0);
+
+  useEffect(() => {
+    const loadCounts = () => {
+      setScholarshipCount((fetchPostsByType('scholarship') || []).length);
+      setJobCount((fetchPostsByType('job') || []).length);
+    };
+
+    loadCounts();
+    window.addEventListener('dataUpdated', loadCounts);
+    return () => window.removeEventListener('dataUpdated', loadCounts);
+  }, []);
 
   const trustIndicators = [
-    { icon: Award, number: '500+', label: t('trust1Label') },
-    { icon: Briefcase, number: '100+', label: t('trust2Label') },
+    { icon: Award, number: scholarshipCount.toString(), label: t('trust1Label') },
+    { icon: Briefcase, number: jobCount.toString(), label: t('trust2Label') },
     { icon: Users, number: '10,000+', label: t('trust3Label') },
   ];
 
@@ -81,7 +96,7 @@ const HomePage = () => {
         <section
           className="relative bg-cover bg-center py-32"
           style={{
-            backgroundImage: `linear-gradient(rgba(30, 115, 190, 0.85), rgba(30, 115, 190, 0.85)), url('https://images.unsplash.com/photo-1658161587858-d4814b7c9591')`,
+            backgroundImage: `linear-gradient(rgba(30, 115, 190, 0.85), rgba(30, 115, 190, 0.85)), url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1920&q=80')`,
           }}
         >
           <div className="container mx-auto px-4 text-center text-white">
@@ -131,28 +146,6 @@ const HomePage = () => {
               <p className="text-lg text-gray-700 leading-relaxed">
                 {t('missionText')}
               </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Trust Indicators */}
-        <section className="py-16 bg-gradient-to-br from-blue-50 to-blue-100">
-          <div className="container mx-auto px-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {trustIndicators.map((indicator, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition-shadow"
-                >
-                  <indicator.icon className="w-16 h-16 mx-auto mb-4 text-[#1E73BE]" />
-                  <h3 className="text-4xl font-bold text-[#1E73BE] mb-2">{indicator.number}</h3>
-                  <p className="text-gray-700 font-medium">{indicator.label}</p>
-                </motion.div>
-              ))}
             </div>
           </div>
         </section>
@@ -246,6 +239,30 @@ const HomePage = () => {
             </div>
           </div>
         </section>
+
+        {/* Trust Indicators */}
+        <section className="py-16 bg-gradient-to-br from-blue-50 to-blue-100">
+          <div className="container mx-auto px-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {trustIndicators.map((indicator, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  className="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition-shadow"
+                >
+                  <indicator.icon className="w-16 h-16 mx-auto mb-4 text-[#1E73BE]" />
+                  <h3 className="text-4xl font-bold text-[#1E73BE] mb-2">{indicator.number}</h3>
+                  <p className="text-gray-700 font-medium">{indicator.label}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <EligibilityChecker />
       </div>
     </>
   );

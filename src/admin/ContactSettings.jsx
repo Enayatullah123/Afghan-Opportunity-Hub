@@ -6,7 +6,6 @@ const ContactSettings = () => {
     email: '',
     facebookUrl: '',
     youtubeUrl: '',
-    linkedinUrl: '',
     location: '',
   });
   const [status, setStatus] = useState('');
@@ -17,7 +16,6 @@ const ContactSettings = () => {
       email: s.email || '',
       facebookUrl: s.facebookUrl || '',
       youtubeUrl: s.youtubeUrl || '',
-      linkedinUrl: s.linkedinUrl || '',
       location: s.location || '',
     });
   }, []);
@@ -46,10 +44,6 @@ const ContactSettings = () => {
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">YouTube Link</label>
           <input name="youtubeUrl" value={form.youtubeUrl} onChange={handleChange} className="w-full p-2 border rounded" />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">LinkedIn Link</label>
-          <input name="linkedinUrl" value={form.linkedinUrl} onChange={handleChange} className="w-full p-2 border rounded" />
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Location</label>

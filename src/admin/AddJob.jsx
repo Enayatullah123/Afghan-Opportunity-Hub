@@ -27,6 +27,8 @@ const AddJob = () => {
   const [videoLink, setVideoLink] = useState('');
   const [submissionEmail, setSubmissionEmail] = useState('');
   const [submissionGuideline, setSubmissionGuideline] = useState('');
+  const [status, setStatus] = useState('verified');
+  const [successTips, setSuccessTips] = useState('');
   const [pdf, setPdf] = useState(null);
 
   const handleFile = (file) => {
@@ -66,6 +68,8 @@ const AddJob = () => {
       videoLink,
       submissionEmail,
       submissionGuideline,
+      status,
+      successTips,
       pdf,
       createdAt: new Date().toISOString(),
     };
@@ -93,6 +97,8 @@ const AddJob = () => {
     setVideoLink('');
     setSubmissionEmail('');
     setSubmissionGuideline('');
+    setStatus('verified');
+    setSuccessTips('');
     setPdf(null);
     alert('Job saved (localStorage)');
   };
@@ -247,6 +253,21 @@ const AddJob = () => {
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-1">Submission Guideline *</label>
           <textarea placeholder="e.g., Applicants who meet the above requirements should submit their updated CV/Resume to the email above. Please mention the specific Job Title in the email subject line. Only shortlisted candidates will be contacted for further recruitment process." value={submissionGuideline} onChange={e=>setSubmissionGuideline(e.target.value)} className="p-2 border rounded w-full" rows="4" required />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Verification Status</label>
+            <select value={status} onChange={e=>setStatus(e.target.value)} className="p-2 border rounded w-full">
+              <option value="verified">Verified</option>
+              <option value="pending">Pending Review</option>
+              <option value="unverified">Unverified</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-1">Success Tips</label>
+            <textarea placeholder="Share practical tips to improve application success..." value={successTips} onChange={e=>setSuccessTips(e.target.value)} className="p-2 border rounded w-full" rows="2" />
+          </div>
         </div>
 
         {/* PDF Upload */}

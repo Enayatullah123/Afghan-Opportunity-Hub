@@ -1,10 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocale } from '../contexts/LocaleContext.jsx';
 import { Helmet } from 'react-helmet';
 import { Target, Eye, Heart, Users, Award, TrendingUp } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { fetchPostsByType } from '../admin/utils.js';
 
 const AboutPage = () => {
+  const [scholarshipCount, setScholarshipCount] = useState(0);
+  const [jobCount, setJobCount] = useState(0);
+
+  useEffect(() => {
+    const loadCounts = () => {
+      setScholarshipCount((fetchPostsByType('scholarship') || []).length);
+      setJobCount((fetchPostsByType('job') || []).length);
+    };
+
+    loadCounts();
+    window.addEventListener('dataUpdated', loadCounts);
+    return () => window.removeEventListener('dataUpdated', loadCounts);
+  }, []);
+
   const valuesRaw = [
     {
       icon: Heart,
@@ -45,11 +60,17 @@ const AboutPage = () => {
   }));
 
   const rawImpact = (t('impactStats') || impactRaw);
-  const impactStats = rawImpact.map((s, i) => ({
-    number: s.number || impactRaw[i]?.number,
-    label: s.label || impactRaw[i]?.label,
-    icon: s.icon || impactRaw[i]?.icon,
-  }));
+  const impactStats = rawImpact.map((s, i) => {
+    let dynamicNumber = s.number || impactRaw[i]?.number;
+    if (i === 0) dynamicNumber = scholarshipCount.toString();
+    if (i === 1) dynamicNumber = jobCount.toString();
+
+    return {
+      number: dynamicNumber,
+      label: s.label || impactRaw[i]?.label,
+      icon: s.icon || impactRaw[i]?.icon,
+    };
+  });
 
   return (
     <>

@@ -101,7 +101,7 @@ export function updatePost(id, newData) {
   const posts = getPosts();
   const idx = posts.findIndex(p => p.id === id);
   if (idx !== -1) {
-    posts[idx] = { ...posts[idx], ...newData };
+    posts[idx] = { ...posts[idx], ...newData, updatedAt: new Date().toISOString() };
     localStorage.setItem(POSTS_KEY, JSON.stringify(posts));
     try { window.dispatchEvent(new Event('dataUpdated')); } catch (e) {}
   }
@@ -166,9 +166,11 @@ export function addResource(resource) {
     type: 'resource',
     title: { en: resource.title || '' },
     description: { en: resource.description || '' },
+    shortDescription: resource.shortDescription || '',
     category: resource.category || 'guide',
     fileUrl: resource.fileUrl || '',
     fileName: resource.fileName || '',
+    fileSize: resource.fileSize || '',
     createdAt: resource.createdAt || new Date().toISOString(),
   };
   return savePost(post);
@@ -182,9 +184,11 @@ export function updateResource(id, newData) {
       ...resources[idx],
       title: { en: newData.title || resources[idx].title?.en || '' },
       description: { en: newData.description || resources[idx].description?.en || '' },
+      shortDescription: newData.shortDescription || resources[idx].shortDescription || '',
       category: newData.category || resources[idx].category,
       fileUrl: newData.fileUrl || resources[idx].fileUrl,
       fileName: newData.fileName || resources[idx].fileName || '',
+      fileSize: newData.fileSize || resources[idx].fileSize || '',
     };
     return updatePost(id, updated);
   }
@@ -193,6 +197,11 @@ export function updateResource(id, newData) {
 
 export function deleteResource(id) {
   return deletePost(id);
+}
+
+// Learn Hub management (type: 'learn')
+export function getLearnItems() {
+  return fetchPostsByType('learn');
 }
 
 // Contact settings (admin-controlled contact info)
@@ -209,7 +218,6 @@ export function saveContactSettings(settings) {
     email: settings.email || '',
     facebookUrl: settings.facebookUrl || '',
     youtubeUrl: settings.youtubeUrl || '',
-    linkedinUrl: settings.linkedinUrl || '',
     location: settings.location || '',
     updatedAt: new Date().toISOString(),
   };
@@ -320,37 +328,6 @@ export function updatePortfolio(id, newData) {
 }
 
 export function deletePortfolio(id) {
-  return deletePost(id);
-}
-
-// Pricing management (type: 'pricing') - each plan stored as a post
-export function getPricingPlans() {
-  return fetchPostsByType('pricing');
-}
-
-export function savePricingPlan(p) {
-  const post = {
-    id: p.id || Date.now(),
-    type: 'pricing',
-    planName: p.planName || '',
-    price: p.price || '',
-    features: p.features || [],
-    createdAt: p.createdAt || new Date().toISOString(),
-  };
-  return savePost(post);
-}
-
-export function updatePricingPlan(id, newData) {
-  const plans = getPricingPlans();
-  const idx = plans.findIndex(p => p.id === id);
-  if (idx !== -1) {
-    const updated = { ...plans[idx], ...newData };
-    return updatePost(id, updated);
-  }
-  return plans;
-}
-
-export function deletePricingPlan(id) {
   return deletePost(id);
 }
 

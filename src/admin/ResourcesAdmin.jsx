@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { getResources, addResource, updateResource, deleteResource, validateFile, fileToBase64, getFileNameFromBase64 } from './utils.js';
+import { getResources, addResource, updateResource, deleteResource, validateFile, fileToBase64 } from './utils.js';
 import { Edit2, Trash2, Plus, Eye, FileText } from 'lucide-react';
 
 const categoryLabels = {
   cv: 'CV/Resume Templates',
   motivation: 'Motivation Letter Templates',
+  'cover-letter': 'Cover Letter Templates',
   guide: 'Checklists & Guides',
 };
 
@@ -16,11 +17,12 @@ const ResourcesAdmin = () => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
+    shortDescription: '',
     category: 'cv',
     fileUrl: '',
     fileName: '',
+    fileSize: '',
   });
-  const [fileData, setFileData] = useState(null);
   const [fileName, setFileName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -42,7 +44,8 @@ const ResourcesAdmin = () => {
 
   const handleAdd = () => {
     setEditing(null);
-    setFormData({ title: '', description: '', category: 'cv', fileUrl: '' });
+    setFormData({ title: '', description: '', shortDescription: '', category: 'cv', fileUrl: '', fileName: '', fileSize: '' });
+    setFileName('');
     setShowForm(true);
   };
 
@@ -51,12 +54,13 @@ const ResourcesAdmin = () => {
     setFormData({
       title: resource.title?.en || resource.title || '',
       description: resource.description?.en || resource.description || '',
+      shortDescription: resource.shortDescription || '',
       category: resource.category || 'cv',
       fileUrl: resource.fileUrl || '',
       fileName: resource.fileName || '',
+      fileSize: resource.fileSize || '',
     });
     setFileName(resource.fileName || '');
-    setFileData(null);
     setShowForm(true);
   };
 
@@ -120,8 +124,8 @@ const ResourcesAdmin = () => {
     try {
       const base64 = await fileToBase64(file);
       // Save both base64 and filename into formData
-      setFormData(prev => ({ ...prev, fileUrl: base64, fileName: file.name }));
-      setFileData(base64);
+      const sizeLabel = `${(file.size / 1024 / 1024).toFixed(2)} MB`;
+      setFormData(prev => ({ ...prev, fileUrl: base64, fileName: file.name, fileSize: sizeLabel }));
       setFileName(file.name);
     } catch (err) {
       setError('Failed to read file');
@@ -133,6 +137,7 @@ const ResourcesAdmin = () => {
   const resourcesByCategory = {
     cv: resources.filter(r => r.category === 'cv'),
     motivation: resources.filter(r => r.category === 'motivation'),
+    'cover-letter': resources.filter(r => r.category === 'cover-letter'),
     guide: resources.filter(r => r.category === 'guide'),
   };
 
@@ -216,6 +221,7 @@ const ResourcesAdmin = () => {
               >
                 <option value="cv">CV/Resume Templates</option>
                 <option value="motivation">Motivation Letter Templates</option>
+                <option value="cover-letter">Cover Letter Templates</option>
                 <option value="guide">Checklists & Guides</option>
               </select>
             </div>
@@ -229,6 +235,17 @@ const ResourcesAdmin = () => {
                 className="w-full p-2 border rounded focus:ring-2 focus:ring-[#1E73BE] focus:border-transparent"
                 rows="3"
                 required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Short Description</label>
+              <input
+                type="text"
+                value={formData.shortDescription}
+                onChange={(e) => setFormData({ ...formData, shortDescription: e.target.value })}
+                placeholder="One-line summary"
+                className="w-full p-2 border rounded focus:ring-2 focus:ring-[#1E73BE] focus:border-transparent"
               />
             </div>
 
@@ -247,6 +264,9 @@ const ResourcesAdmin = () => {
                 {error && <p className="text-sm text-red-600 mt-2">{error}</p>}
                 {fileName && (
                   <p className="text-sm text-blue-700 mt-2">Selected file: {fileName}</p>
+                )}
+                {formData.fileSize && (
+                  <p className="text-xs text-gray-600 mt-1">Size: {formData.fileSize}</p>
                 )}
                 {!fileName && formData.fileName && (
                   <p className="text-sm text-gray-700 mt-2">Current file: {formData.fileName}</p>
@@ -294,11 +314,17 @@ const ResourcesAdmin = () => {
                       <h4 className="font-semibold text-gray-900">{resource.title?.en || 'Untitled'}</h4>
                     </div>
                     <p className="text-sm text-gray-600 mt-1 ml-7">{resource.description?.en || ''}</p>
+                    {resource.shortDescription && (
+                      <p className="text-sm text-blue-700 mt-1 ml-7">{resource.shortDescription}</p>
+                    )}
                     <p className="text-xs text-gray-500 mt-2 ml-7">
                       Added: {new Date(resource.createdAt).toLocaleDateString()}
                     </p>
                     {resource.fileName && (
                       <p className="text-xs text-blue-600 mt-1 ml-7">File: {resource.fileName}</p>
+                    )}
+                    {resource.fileSize && (
+                      <p className="text-xs text-gray-500 mt-1 ml-7">Size: {resource.fileSize}</p>
                     )}
                   </div>
                   <div className="flex gap-2 ml-4">

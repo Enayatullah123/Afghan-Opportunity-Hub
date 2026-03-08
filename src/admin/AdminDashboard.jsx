@@ -30,6 +30,10 @@ const AdminDashboard = () => {
           <div className="text-3xl font-bold">{counts.resource || 0}</div>
         </div>
         <div className="bg-white p-4 rounded shadow">
+          <h3 className="font-semibold">Success Stories</h3>
+          <div className="text-3xl font-bold">{counts['success-story'] || 0}</div>
+        </div>
+        <div className="bg-white p-4 rounded shadow">
           <h3 className="font-semibold">Messages</h3>
           <div className="text-3xl font-bold">{messages.length}</div>
         </div>

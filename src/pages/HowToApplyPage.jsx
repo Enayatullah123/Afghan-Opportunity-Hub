@@ -3,6 +3,7 @@ import { useLocale } from '../contexts/LocaleContext.jsx';
 import { Helmet } from 'react-helmet';
 import { FileText, Upload, PenTool, CheckSquare, AlertCircle, GraduationCap, Briefcase, ClipboardList } from 'lucide-react';
 import { motion } from 'framer-motion';
+import ApplicationRoadmap from '../components/ApplicationRoadmap.jsx';
 
 const HowToApplyPage = () => {
   const { t } = useLocale();
@@ -35,6 +36,8 @@ const HowToApplyPage = () => {
             </motion.div>
           </div>
         </section>
+
+        <ApplicationRoadmap />
 
         {/* Step-by-Step Guides */}
         <section className="py-16 bg-white">

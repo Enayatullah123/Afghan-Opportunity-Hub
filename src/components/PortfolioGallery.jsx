@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink } from 'lucide-react';
 import { getPortfolios } from '../admin/utils.js';
 
 const PortfolioGallery = () => {

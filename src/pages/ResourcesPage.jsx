@@ -11,6 +11,7 @@ import { useState, useEffect } from 'react';
 const resourceCategories = {
   cv: 'CV/Resume Templates',
   motivation: 'Motivation Letter Templates',
+  'cover-letter': 'Cover Letter Templates',
   guide: 'Checklists & Guides',
 };
 
@@ -20,6 +21,14 @@ const ResourcesPage = () => {
 
   const [resources, setResources] = useState([]);
   const [previewUrl, setPreviewUrl] = useState(null);
+
+  const defaultCoverLetterTemplate = {
+    id: 'default-cover-letter-template',
+    category: 'cover-letter',
+    title: { en: 'Professional Cover Letter Template' },
+    description: { en: 'Editable cover letter template for scholarship and job applications.' },
+    fileUrl: 'https://www.fiverr.com/categories/writing-translation/cover-letter',
+  };
 
   useEffect(() => {
     const loadResources = () => {
@@ -94,44 +103,48 @@ const ResourcesPage = () => {
     if (!fileUrl) {
       toast({
         title: 'Download Not Available',
-        description: 'This resource does not have a download link yet.',
+        description: 'This resource does not have a valid file yet.',
         variant: 'destructive',
       });
       return;
     }
 
     if (fileUrl.startsWith('data:')) {
-      // Base64 data URI - create download link
       const link = document.createElement('a');
       link.href = fileUrl;
-      link.download = fileName || `${resourceTitle}.pdf`;
+      link.download = fileName || `${resourceTitle}.file`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      toast({
-        title: 'Download Started',
-        description: `${resourceTitle} is downloading.`,
-      });
-    } else if (fileUrl.startsWith('http')) {
-      // External URL
-      window.open(fileUrl, '_blank');
-      toast({
-        title: 'Opening Download',
-        description: `${resourceTitle} is opening in a new window.`,
-      });
-    } else {
-      toast({
-        title: 'Download Link Not Available',
-        description: 'Please contact the admin to enable downloads for this resource.',
-        variant: 'destructive',
-      });
+      return;
     }
+
+    if (fileUrl.startsWith('http')) {
+      const link = document.createElement('a');
+      link.href = fileUrl;
+      link.target = '_blank';
+      link.rel = 'noreferrer noopener';
+      link.download = fileName || '';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      return;
+    }
+
+    toast({
+      title: 'Download Not Available',
+      description: 'The file URL is not valid.',
+      variant: 'destructive',
+    });
   };
 
   // Group resources by category
   const resourcesByCategory = {
     cv: resources.filter(r => r.category === 'cv'),
     motivation: resources.filter(r => r.category === 'motivation'),
+    'cover-letter': resources.filter(r => r.category === 'cover-letter').length
+      ? resources.filter(r => r.category === 'cover-letter')
+      : [defaultCoverLetterTemplate],
     guide: resources.filter(r => r.category === 'guide'),
   };
 
@@ -233,30 +246,18 @@ const ResourcesPage = () => {
                                 className="flex-1 inline-flex items-center justify-center gap-2 bg-white border border-[#1E73BE] text-[#1E73BE] font-semibold py-2 px-4 rounded-lg hover:bg-blue-50 transition-colors"
                               >
                                 <Eye className="w-4 h-4" />
-                                {t('viewLabel') || 'View'}
+                                View
                               </button>
                             )}
 
                             {resource.fileUrl && (
-                              resource.fileUrl.startsWith('data:') ? (
-                                <button
-                                  onClick={() => handleDownload(resource.title?.en || resource.title, resource.fileUrl, (resource.fileName || `${resource.title}.pdf`))}
-                                  className="flex-1 inline-flex items-center justify-center gap-2 bg-[#1E73BE] hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors"
-                                >
-                                  <Download className="w-4 h-4" />
-                                  {t('downloadLabel') || 'Download'}
-                                </button>
-                              ) : (
-                                <a
-                                  href={resource.fileUrl}
-                                  target="_blank"
-                                  rel="noreferrer"
-                                  className="flex-1 inline-flex items-center justify-center gap-2 bg-[#1E73BE] hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors"
-                                >
-                                  <Download className="w-4 h-4" />
-                                  {t('downloadLabel') || 'Download'}
-                                </a>
-                              )
+                              <button
+                                onClick={() => handleDownload(resource.title?.en || resource.title, resource.fileUrl, resource.fileName || `${resource.title}.file`)}
+                                className="flex-1 inline-flex items-center justify-center gap-2 bg-[#1E73BE] hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors"
+                              >
+                                <Download className="w-4 h-4" />
+                                Download
+                              </button>
                             )}
                           </div>
                         </motion.div>
